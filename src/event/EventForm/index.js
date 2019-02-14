@@ -1,27 +1,51 @@
 import React, { Component } from 'react';
 import { Segment, Form, Button } from 'semantic-ui-react';
 
+const emptyEvent = {
+  title: '',
+  date: '',
+  city: '',
+  venue: '',
+  hostedBy: ''
+};
+
 class EventForm extends Component {
   state = {
-    title: '',
-    date: '',
-    city: '',
-    venue: '',
-    hostedBy: ''
+    event: emptyEvent
   };
 
+  componentDidMount() {
+    if (this.props.selectedEvent) {
+      this.setState({
+        event: this.props.selectedEvent
+      });
+    }
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (nextProps.selectedEvent !== prevState.event) {
+      return { event: nextProps.selectedEvent || emptyEvent };
+    } else return null;
+  }
+
   handleChange = e => {
-    this.setState({ [e.target.name]: e.target.value });
+    const updatedEvent = this.state.event;
+    updatedEvent[e.target.name] = e.target.value;
+    this.setState({ event: updatedEvent });
   };
 
   handleSubmit = e => {
     e.preventDefault();
-    this.props.createEvent(this.state);
+    if (this.state.event.id) {
+      this.props.updatedEvent(this.state.event);
+    } else {
+      this.props.createEvent(this.state.event);
+    }
   };
 
   render() {
     const { handleCancel } = this.props;
-    const { title, date, city, venue, hostedBy } = this.state;
+    const { title, date, city, venue, hostedBy } = this.state.event;
 
     return (
       <Segment>
