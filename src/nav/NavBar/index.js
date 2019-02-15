@@ -28,7 +28,7 @@ class NavBar extends Component {
 
     return (
       <div>
-        <Menu inverted fixed="top">
+        <Menu>
           <Container>
             <Menu.Item as={Link} to="/" header>
               Re-vents
