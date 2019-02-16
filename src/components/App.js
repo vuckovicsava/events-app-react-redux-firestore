@@ -1,14 +1,14 @@
 import React from 'react';
 import { Container } from 'semantic-ui-react';
 import { Route, Switch } from 'react-router-dom';
-import NavBar from '../nav/NavBar';
-import HomePage from '../home/HomePage';
-import EventDashboard from '../events/EventDashboard';
-import EventDetailsPage from '../events/EventDetailsPage';
-import PeopleDashboard from '../user/PeopleDashboard';
-import UserDetailsPage from '../user/UserDetailsPage';
-import SettingsDashboard from '../user/Settings/SettingsDashboard';
-import EventForm from '../events/EventForm';
+import NavBar from './nav/NavBar';
+import HomePage from './home/HomePage';
+import EventDashboard from './events/EventDashboard';
+import EventDetailsPage from './events/EventDetailsPage';
+import PeopleDashboard from './user/PeopleDashboard';
+import UserDetailsPage from './user/UserDetailsPage';
+import SettingsDashboard from './user/Settings/SettingsDashboard';
+import EventForm from './events/EventForm';
 
 class App extends React.Component {
   render() {
