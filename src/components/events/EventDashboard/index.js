@@ -4,6 +4,11 @@ import { Grid, Button } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import EventList from '../EventList';
 import EventForm from '../EventForm';
+import {
+  createEvent,
+  updateEvent,
+  deleteEvent
+} from '../../../store/actions/eventActions';
 
 class EventDashboard extends Component {
   state = {
@@ -23,9 +28,8 @@ class EventDashboard extends Component {
   handleCreateEvent = newEvent => {
     newEvent.id = uuid();
     newEvent.hostPhotoURL = '/assets/user.png';
-    const updatedEvents = [...this.state.events, newEvent];
+    this.props.createEvent(newEvent);
     this.setState({
-      events: updatedEvents,
       isFormOpen: false
     });
   };
@@ -38,24 +42,15 @@ class EventDashboard extends Component {
   };
 
   handleUpdateEvent = updatedEvent => {
+    this.props.updateEvent(updatedEvent);
     this.setState({
-      events: this.state.events.map(e => {
-        if (e.id === updatedEvent.id) {
-          return Object.assign({}, updatedEvent);
-        } else {
-          return e;
-        }
-      }),
       isFormOpen: false,
       selectedEvent: null
     });
   };
 
   handleDeleteEvent = id => () => {
-    const updatedEvents = this.state.events.filter(e => e.id !== id);
-    this.setState({
-      events: updatedEvents
-    });
+    this.props.deleteEvent(id);
   };
 
   render() {
@@ -92,5 +87,13 @@ class EventDashboard extends Component {
 }
 
 const mapStateToProps = ({ events }) => ({ events });
+const actions = {
+  createEvent,
+  updateEvent,
+  deleteEvent
+};
 
-export default connect(mapStateToProps)(EventDashboard);
+export default connect(
+  mapStateToProps,
+  actions
+)(EventDashboard);
