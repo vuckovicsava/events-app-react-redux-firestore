@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { reduxForm, Field } from 'redux-form';
 import uuid from 'uuid';
 import { Segment, Form, Button } from 'semantic-ui-react';
 import { createEvent, updateEvent } from '../../../store/actions/eventActions';
@@ -46,6 +47,12 @@ class EventForm extends Component {
               placeholder="Event Name"
             />
           </Form.Field>
+          <Field
+            name="title"
+            type="text"
+            component="input"
+            placeholder="Event Title"
+          />
           <Form.Field>
             <label>Event Date</label>
             <input
@@ -120,4 +127,4 @@ const actions = {
 export default connect(
   mapStateToProps,
   actions
-)(EventForm);
+)(reduxForm({ form: 'eventForm' })(EventForm));
