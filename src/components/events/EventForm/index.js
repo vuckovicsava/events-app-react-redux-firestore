@@ -8,11 +8,13 @@ import {
   hasLengthGreaterThan
 } from 'revalidate';
 import uuid from 'uuid';
+import moment from 'moment';
 import { Segment, Form, Button, Grid, Header } from 'semantic-ui-react';
 import { createEvent, updateEvent } from '../../../store/actions/eventActions';
 import TextInput from '../../common/Textinput';
 import TextArea from '../../common/TextArea';
 import SelectInput from '../../common/SelectInput';
+import DateInput from '../../common/DateInput';
 
 const categories = [
   { key: 'drinks', text: 'Drinks', value: 'drinks' },
@@ -34,10 +36,12 @@ const validate = combineValidators({
   )(),
   city: isRequired('city'),
   venue: isRequired('venue')
+  // date: isRequired('date')
 });
 
 class EventForm extends Component {
   onFormSubmit = values => {
+    values.date = moment(values.date).format();
     if (this.props.initialValues.id) {
       this.props.updateEvent(values);
       this.props.history.goBack();
@@ -90,16 +94,19 @@ class EventForm extends Component {
                 placeholder="Event City"
               />
               <Field
-                name="date"
-                type="text"
-                component={TextInput}
-                placeholder="Event Date"
-              />
-              <Field
                 name="venue"
                 type="text"
                 component={TextInput}
                 placeholder="Event Venue"
+              />
+              <Field
+                name="date"
+                type="text"
+                component={DateInput}
+                dateFormat="YYYY/MM/DD HH:mm"
+                timeFormat="HH:mm"
+                showTimeSelect
+                placeholder="Event Date and Time"
               />
 
               <Button
