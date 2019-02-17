@@ -1,32 +1,25 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Segment, Form, Button } from 'semantic-ui-react';
-
-const emptyEvent = {
-  title: '',
-  date: '',
-  city: '',
-  venue: '',
-  hostedBy: ''
-};
 
 class EventForm extends Component {
   state = {
-    event: emptyEvent
+    event: Object.assign({}, this.props.event)
   };
 
-  componentDidMount() {
-    if (this.props.selectedEvent) {
-      this.setState({
-        event: this.props.selectedEvent
-      });
-    }
-  }
+  // componentDidMount() {
+  //   if (this.props.selectedEvent) {
+  //     this.setState({
+  //       event: this.props.selectedEvent
+  //     });
+  //   }
+  // }
 
-  static getDerivedStateFromProps(nextProps, prevState) {
-    if (nextProps.selectedEvent !== prevState.event) {
-      return { event: nextProps.selectedEvent || emptyEvent };
-    } else return null;
-  }
+  // static getDerivedStateFromProps(nextProps, prevState) {
+  //   if (nextProps.selectedEvent !== prevState.event) {
+  //     return { event: nextProps.selectedEvent || emptyEvent };
+  //   } else return null;
+  // }
 
   handleChange = e => {
     const updatedEvent = this.state.event;
@@ -107,4 +100,22 @@ class EventForm extends Component {
   }
 }
 
-export default EventForm;
+const mapStateToProps = (state, ownProps) => {
+  const eventId = ownProps.match.params.id;
+
+  let event = {
+    title: '',
+    date: '',
+    city: '',
+    venue: '',
+    hostedBy: ''
+  };
+
+  if (eventId && state.events.length > 0) {
+    event = state.events.find(e => e.id === eventId);
+  }
+
+  return { event };
+};
+
+export default connect(mapStateToProps)(EventForm);
