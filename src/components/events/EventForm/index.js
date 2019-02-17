@@ -11,7 +11,7 @@ import uuid from 'uuid';
 import moment from 'moment';
 import { Segment, Form, Button, Grid, Header } from 'semantic-ui-react';
 import { createEvent, updateEvent } from '../../../store/actions/eventActions';
-import TextInput from '../../common/Textinput';
+import TextInput from '../../common/TextInput';
 import TextArea from '../../common/TextArea';
 import SelectInput from '../../common/SelectInput';
 import DateInput from '../../common/DateInput';
