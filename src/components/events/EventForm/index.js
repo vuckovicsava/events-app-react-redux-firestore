@@ -1,25 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import uuid from 'uuid';
 import { Segment, Form, Button } from 'semantic-ui-react';
+import { createEvent, updateEvent } from '../../../store/actions/eventActions';
 
 class EventForm extends Component {
   state = {
     event: Object.assign({}, this.props.event)
   };
-
-  // componentDidMount() {
-  //   if (this.props.selectedEvent) {
-  //     this.setState({
-  //       event: this.props.selectedEvent
-  //     });
-  //   }
-  // }
-
-  // static getDerivedStateFromProps(nextProps, prevState) {
-  //   if (nextProps.selectedEvent !== prevState.event) {
-  //     return { event: nextProps.selectedEvent || emptyEvent };
-  //   } else return null;
-  // }
 
   handleChange = e => {
     const updatedEvent = this.state.event;
@@ -30,14 +18,20 @@ class EventForm extends Component {
   handleSubmit = e => {
     e.preventDefault();
     if (this.state.event.id) {
-      this.props.updatedEvent(this.state.event);
+      this.props.updateEvent(this.state.event);
+      this.props.history.goBack();
     } else {
-      this.props.createEvent(this.state.event);
+      const newEvent = {
+        ...this.state.event,
+        id: uuid(),
+        hostPhotoURL: '/assets/user.png'
+      };
+      this.props.createEvent(newEvent);
+      this.props.history.push('/events');
     }
   };
 
   render() {
-    const { handleCancel } = this.props;
     const { title, date, city, venue, hostedBy } = this.state.event;
 
     return (
@@ -91,7 +85,7 @@ class EventForm extends Component {
           <Button positive type="submit">
             Submit
           </Button>
-          <Button onClick={handleCancel} type="button">
+          <Button onClick={this.props.history.goBack} type="button">
             Cancel
           </Button>
         </Form>
@@ -118,4 +112,12 @@ const mapStateToProps = (state, ownProps) => {
   return { event };
 };
 
-export default connect(mapStateToProps)(EventForm);
+const actions = {
+  createEvent,
+  updateEvent
+};
+
+export default connect(
+  mapStateToProps,
+  actions
+)(EventForm);
