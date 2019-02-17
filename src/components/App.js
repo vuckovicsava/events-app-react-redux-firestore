@@ -9,11 +9,13 @@ import EventDetailsPage from './events/EventDetailsPage';
 import PeopleDashboard from './user/PeopleDashboard';
 import UserDetailsPage from './user/UserDetailsPage';
 import SettingsDashboard from './user/Settings/SettingsDashboard';
+import ModalManager from '../components/modals/ModalManager';
 
 class App extends React.Component {
   render() {
     return (
       <>
+        <ModalManager />
         <Switch>
           <Route exact path="/" component={HomePage} />
         </Switch>
