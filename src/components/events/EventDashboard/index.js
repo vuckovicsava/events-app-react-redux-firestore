@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Grid } from 'semantic-ui-react';
 import { connect } from 'react-redux';
+import { firestoreConnect } from 'react-redux-firebase';
 import EventList from '../EventList';
 import { deleteEvent } from '../../../store/actions/eventActions';
 
@@ -28,4 +29,4 @@ const mapStateToProps = ({ events }) => ({ events });
 export default connect(
   mapStateToProps,
   { deleteEvent }
-)(EventDashboard);
+)(firestoreConnect([{ collection: 'events' }])(EventDashboard));

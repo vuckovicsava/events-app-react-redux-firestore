@@ -10,19 +10,37 @@ import App from './components/App';
 import * as serviceWorker from './serviceWorker';
 
 import store from './store';
+import { ReactReduxFirebaseProvider } from 'react-redux-firebase';
+import { createFirestoreInstance } from 'redux-firestore';
+import firebase from './config/firebase';
+
+const rrfConfig = {
+  userProfile: 'users',
+  attachAuthIsReady: true,
+  useFirestoreForProfile: true
+};
+
+const rrfProps = {
+  firebase,
+  config: rrfConfig,
+  dispatch: store.dispatch,
+  createFirestoreInstance
+};
 
 ReactDOM.render(
   <Provider store={store}>
-    <BrowserRouter>
-      <>
-        <ReduxToastr
-          position="bottom-right"
-          transitionIn="fadeIn"
-          transitionOut="fadeOut"
-        />
-        <App />
-      </>
-    </BrowserRouter>
+    <ReactReduxFirebaseProvider {...rrfProps}>
+      <BrowserRouter>
+        <>
+          <ReduxToastr
+            position="bottom-right"
+            transitionIn="fadeIn"
+            transitionOut="fadeOut"
+          />
+          <App />
+        </>
+      </BrowserRouter>
+    </ReactReduxFirebaseProvider>
   </Provider>,
   document.getElementById('root')
 );
