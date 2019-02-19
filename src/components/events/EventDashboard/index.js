@@ -27,7 +27,11 @@ class EventDashboard extends Component {
   }
 }
 
-const mapStateToProps = ({ events }) => ({ events });
+const mapStateToProps = state => {
+  return {
+    events: state.firestore.ordered.events
+  };
+};
 
 export default connect(
   mapStateToProps,
